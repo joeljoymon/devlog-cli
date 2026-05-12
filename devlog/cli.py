@@ -56,7 +56,7 @@ def list_entries():
     click.echo("\n-----Your Devlogs----------------------")
     for entry in entries:
         status_icon = "✔" if entry['status']=="done" else 'o'
-        click.echo(f"  {status_icon} #{entry['id']} [{entry['created_at']}] {entry['message']}")
+        click.echo(f"   {status_icon} #{entry['id']} [{entry['created_at']}] {entry['message']}")
     click.echo("────────────────────────────────\n")
 
 
@@ -74,7 +74,7 @@ def done(entry_id):
             click.echo(f"✔ Marked #{entry['id']} as done: {entry['message']}")
             return
         
-    click.echo("No entry found with the given id")
+    click.echo("No entry found")
 
 # ── COMMAND 4: summary ─────────────────────────────────────────
 @cli.command()
@@ -92,7 +92,7 @@ def summary(date):
     ]
 
     if not target_entries:
-        click.echo(f"No entries found for {target_date}.")
+        click.echo(f"No entries found in {target_date}.")   #May have a problem
         return
     
     total = len(target_entries)
