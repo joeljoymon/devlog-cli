@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "devlog-cli"
+version = "0.1.0"
+description = "A command-line developer journal and task tracker"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+
+authors = [
+  {name = "Joel Joymon", email = "joel.joymon2004@gmail.com"}
+]
+
+keywords = ["cli", "developer", "journal", "productivity", "task-tracker"]
+
+dependencies = [
+  "click>=8.0"
+]
+
+[project.scripts]
+devlog = "devlog.cli:cli"
+
+[project.urls]
+Homepage = "https://github.com/joeljoymon/devlog-cli"
+Repository = "https://github.com/joeljoymon/devlog-cli"
