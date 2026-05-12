@@ -76,5 +76,53 @@ def done(entry_id):
         
     click.echo("No entry found with the given id")
 
+# ── COMMAND 4: summary ─────────────────────────────────────────
+@cli.command()
+@click.option("--date",default=None,help="Date to summarise (YYYY-MM-DD). Defaults to today")
+def summary(date):
+    """Show a summary of your work for a given day"""
+    entries = load_data()
+
+    target_date = date if date else datetime.now().strftime("%d/%m/%Y")
+
+    target_entries = [
+        e for e in entries
+        if e['created_at'].startswith(target_date)
+
+    ]
+
+    if not target_entries:
+        click.echo(f"No entries found for {target_date}.")
+        return
+    
+    total = len(target_entries)
+    completed = [e for e in target_entries if e['status']=="done"]
+    pending = [e for e in target_entries if e['status']=="pending"]
+    done_count = len(completed)
+    pct = int((done_count/total)*100)
+
+
+    # ── Header ───────────────────────────────────────────────
+    click.echo(f"\n── DevLog Summary: {target_date} ──────────────────")
+    click.echo(f"  Total logged : {total}")
+    click.echo(f"  Completed    : {done_count}")
+    click.echo(f"  Pending      : {len(pending)}")
+    click.echo(f"  Progress     : {pct}%  {'█' * (pct // 10)}{'░' * (10 - pct // 10)}")
+
+     # ── Completed tasks ───────────────────────────────────────────
+    if completed:
+        click.echo("\n  ✔ Done:")
+        for e in completed:
+            click.echo(f"   #{e['id']}: {e['message']}")
+
+     # ── Pending tasks ───────────────────────────────────────────
+    if pending:
+        click.echo("\n o Pending:")
+        for e in pending:
+            click.echo(f"   #{e['id']}: {e['message']}")
+
+    click.echo("─────────────────────────────────────────────────────\n")
+
+
 if __name__ == "__main__":
     cli()
